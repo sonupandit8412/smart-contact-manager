@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ <section>
+    
+     <div class="container">
+     	 <div class="row">
+     	     <div class="col-md-8 offset-md-2">
+     	         	       
+     	     <div class="my-card mt-2">
+     	     <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+			  <P th:text="${session.message.content}"></P>
+			  
+			  <th:block th:trxt="${#session.removeAttributr('message')}"></th:block>
+			</div>
+     	     <div class="container text-center">
+     	     	<img style="width: 80px" th:src="@{/img/sign-form.png}">
+     	     	</div>
+     	     
+     	     	<h1 class="text-center">SignUp Here</h1>
+     	     	
+     	     	<form  th:action="@{/do_register}" method="post" th:object="${user}">
+     	     	
+     	     	<label for="name_field" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="name_field"
+                th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}"
+				
+                   name="name"
+                   th:value="${user.name}"
+                   aria-describedby="emailHelp" required="required">
+                   
+                   <div id="validationServer03Feedback" class="invalid-feedback" th:each="e : ${#fields.errors('name')}" th:text="${e}">
+      Please provide a valid Name.
+    </div>
+                   
+                   
+                 <label for="email_field" class="form-label">Your Email</label>
+                <input type="email" class="form-control" id="email_field"
+                   name="email"
+                   th:value="${user.email}"
+                   aria-describedby="emailHelp" required="required">
+                   
+                   
+                <label for="password_field" class="form-label">Your Password</label>
+                <input  type="password" class="form-control" id="password_field"
+                   name="password"
+                   
+                   aria-describedby="emailHelp" required="required">
+                   
+                <textarea name="about" th:value="${user.about}" rows="5" cols="" class="form-control mt-2" placeholder="Enter something yourself."></textarea>   
+      	     	
+      	     	<br>
+      	     	<input type="checkbox" name="agreement" id="agreement" class="form-check-input">
+      	     	<label for="agreement">Accept Terms and conditions</label>
+      	     	
+      	     	 <div class="container mt-2 text-center">
+      	     	  <button type="submit" class="btn btn-primary">
+      	     	     Submit
+      	     	  </button>
+      	     	  
+      	     	   <button type="reset" class="btn btn-warning">
+      	     	     Reset
+      	     	  </button>
+      	     	 </div>
+     	     	</form>
+     	     	
+     	     </div>
+     	     
+     	     </div>
+     	 </div>
+     </div>
+  
+  </section>
+</body>
+</html>

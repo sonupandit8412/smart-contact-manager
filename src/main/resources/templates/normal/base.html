@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+  
+    <!-- Navbar -->
+    <nav class="fixed-top navbar navbar-expand-lg bg-body-tertiary bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/}"  style="color: white;">Smart Contact Manager</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/}"  style="color: white;">Home</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#" style="color: white;">About</a>
+        </li> -->
+       
+        <li class="nav-item">
+          <a class="nav-link"   href="#"  style="color: white;" th:text="${user.name}">Login</a>
+        </li>
+        
+         <li class="nav-item">
+          <a class="nav-link"  th:href="@{/logout}"  style="color: white;">Logout</a>
+        </li>
+      </ul>
+   
+    </div>
+  </div>
+</nav>
+    <!-- Navbar end -->
+    <div class="sidebar mt-2">
+    <span onclick="toggleSidebar()" class="crossBtn">&times;</span>
+    <a th:href="@{/user/index}" class="item"><i class="fa fa-home"></i> Home</a>
+    <a th:href="@{/user/show_contacts/0}" class="item"> <i class="fa fa-id-card-alt"></i> View Contact</a>
+    <a th:href="@{/user/add_contact}" class="item"><i class="fa fa-pencil-alt"></i> Add Contact</a>
+    <a th:href="@{/user/profile}" class="item"><i class="fa fa-user-circle"></i> Your Profile</a>
+    <a href="#" class="item"><i class="fa fa-cogs"></i> Settings</a>	
+    <a th:href="@{/logout}" class="item"><i class="fa fa-sign-out-alt"></i> Logout</a>
+    
+    <div class="divider"></div>
+    </div>
+    <!-- End Sidebar -->
+    
+    
+    <div class="content mt-5">
+   <i onclick="toggleSidebar()" class="fa fa-bars m-3"></i>
+   
+   <!-- alert message  -->
+  <div th:if="${session.message}" class="container">
+   <div th:classappend="${'alert-'+session.message.type}" class="alert  text-center" role="alert">
+    <span th:text="${session.message.content}"></span>
+  </div>
+  
+  <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+  </div>
+   
+    <div th:replace="${content}"></div>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+    
+    function deleteContact(cid){
+    	Swal.fire({
+    		  title: "Are you sure?",
+    		  text: "You won't be able to revert this!",
+    		  icon: "warning",
+    		  showCancelButton: true,
+    		  confirmButtonColor: "#3085d6",
+    		  cancelButtonColor: "#d33",
+    		  confirmButtonText: "Yes, delete it!"
+    		}).then((result) => {
+    		  if (result.isConfirmed) {
+    			  window.location="/user/delete/"+cid;
+    		    /* Swal.fire({
+    		      title: "Deleted!",
+    		      text: "Your file has been deleted.",
+    		      icon: "success"
+    		    }); */
+    		  }
+    		  else{
+    			   Swal.fire({
+    		      title: "Not Deleted!",
+    		      text: "Your file has been not deleted.",
+    		      icon: "success"
+    		    }); 
+    		  }
+    		});
+    }
+    
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script th:src="@{/js/script.js}"></script>
+  </body>
+</html>
